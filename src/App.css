@@ -321,3 +321,82 @@ body{
   text-decoration: underline;
   text-underline-offset: 3px;
 }
+
+/* ---------------- MOBILE POLISH ---------------- */
+
+@media (max-width: 600px){
+
+  .app{
+    padding: 40px 18px;
+  }
+
+  .hero{
+    margin-top: 80px;
+  }
+
+  .logo{
+    font-size: 46px;
+  }
+
+  .headline{
+    font-size: 24px;
+    line-height: 1.35;
+  }
+
+  .tagline{
+    font-size: 16px;
+    margin-top: 12px;
+  }
+
+  .buttons{
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 22px;
+  }
+
+  .storeBtn{
+    width: 100%;
+    max-width: 280px;
+  }
+
+  /* FEATURES */
+
+  .features{
+    padding: 70px 0;
+  }
+
+  .features h2{
+    font-size: 32px;
+  }
+
+  .featureGrid{
+    gap: 18px;
+  }
+
+  .featureCard{
+    padding: 22px 18px;
+  }
+
+  .featureCard h3{
+    font-size: 18px;
+  }
+
+  .featureCard p{
+    font-size: 14px;
+  }
+
+  /* FOOTER */
+
+  .footer h3{
+    font-size: 28px;
+  }
+
+  /* BACKGROUND BALLS smaller */
+
+  .bgBall{
+    width: 180px;
+    height: 180px;
+    opacity: .35;
+  }
+
+}
