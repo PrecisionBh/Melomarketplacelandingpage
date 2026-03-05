@@ -49,11 +49,24 @@ body{
   position: relative; /* keeps balls behind content cleanly */
 }
 
-/* PLACEHOLDER HERO */
-
 .hero{
   text-align: center;
   margin-top: 120px;
+
+  /* GLASS CARD */
+  background: rgba(255,255,255,0.35);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  border: 1px solid rgba(255,255,255,0.5);
+  border-radius: 22px;
+
+  padding: 40px 28px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.12);
+
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 /* LOGO */
@@ -330,9 +343,15 @@ body{
     padding: 40px 18px;
   }
 
+ @media (max-width: 600px){
+
   .hero{
-    margin-top: 80px;
+    margin-top: 60px;
+    padding: 28px 20px;
+    border-radius: 18px;
   }
+
+}
 
   .logo{
     font-size: 46px;
