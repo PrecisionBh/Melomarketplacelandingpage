@@ -9,11 +9,11 @@ export default function Hero() {
         <h1 className="logo">Melo</h1>
 
         <p className="headline">
-          The Marketplace for Billiards Gear
+          Your Billiards Niched Marketplace
         </p>
 
         <p className="tagline">
-          Buy, sell, and trade cues, cases, and equipment with secure escrow payments.
+          Buy and Sell Cues, cases, and equipment with secured escrow payments. 
         </p>
 
         <div className="buttons">
