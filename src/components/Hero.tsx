@@ -9,7 +9,7 @@ export default function Hero() {
         <h1 className="logo">Melo</h1>
 
         <p className="headline">
-          Your Billiards Niched Marketplace
+          Your Trusted Billiards Marketplace
         </p>
 
         <p className="tagline">
