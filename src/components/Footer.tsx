@@ -11,6 +11,11 @@ export default function Footer() {
         </a>
       </p>
 
+      <p style={{ fontSize: "12px", opacity: 0.8 }}>
+        <a href="/privacy.html">Privacy Policy</a> {" | "}
+        <a href="/delete-account.html">Delete Account</a>
+      </p>
+
     </footer>
   )
 }
