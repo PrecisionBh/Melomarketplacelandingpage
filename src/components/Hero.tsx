@@ -18,10 +18,17 @@ export default function Hero() {
 
         <div className="buttons">
 
-          <button className="storeBtn disabled">
-            App Store (Coming Soon)
-          </button>
+          {/* ✅ LIVE APP STORE BUTTON */}
+          <a
+            href="https://apps.apple.com/us/app/melo-marketplace/id6760438637"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="storeBtn"
+          >
+            Download on the App Store
+          </a>
 
+          {/* 🚧 GOOGLE PLAY STILL DISABLED */}
           <button className="storeBtn disabled">
             Google Play (Coming Soon)
           </button>
