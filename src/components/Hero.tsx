@@ -13,12 +13,12 @@ export default function Hero() {
         </p>
 
         <p className="tagline">
-          Buy and Sell Cues, cases, and equipment with secured escrow payments. 
+          Buy and Sell Cues, cases, and equipment with secured escrow payments.
         </p>
 
         <div className="buttons">
 
-          {/* ✅ LIVE APP STORE BUTTON */}
+          {/* ✅ APP STORE BUTTON */}
           <a
             href="https://apps.apple.com/us/app/melo-marketplace/id6760438637"
             target="_blank"
@@ -28,10 +28,15 @@ export default function Hero() {
             Download on the App Store
           </a>
 
-          {/* 🚧 GOOGLE PLAY STILL DISABLED */}
-          <button className="storeBtn disabled">
-            Google Play (Coming Soon)
-          </button>
+          {/* ✅ GOOGLE PLAY BUTTON */}
+          <a
+            href="https://play.google.com/store/apps/details?id=com.bhoffman4.MeloMP"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="storeBtn"
+          >
+            Get it on Google Play
+          </a>
 
         </div>
 
