@@ -10,15 +10,26 @@ export default function RedirectPage() {
     const appUrl = `melomp://listing/${id}`
     const fallbackUrl = `/listing/${id}`
 
-    // 🔥 Try opening the app
-    window.location.href = appUrl
+    // 🔥 Slight delay so UI renders first
+    const openAppTimer = setTimeout(() => {
+      window.location.href = appUrl
+    }, 300)
 
-    // 🔥 Fallback to web page after delay
-    const timer = setTimeout(() => {
+    // 🔥 Try again (helps Android Chrome)
+    const retryTimer = setTimeout(() => {
+      window.location.href = appUrl
+    }, 800)
+
+    // 🔥 Final fallback to web
+    const fallbackTimer = setTimeout(() => {
       window.location.href = fallbackUrl
-    }, 1500)
+    }, 2000)
 
-    return () => clearTimeout(timer)
+    return () => {
+      clearTimeout(openAppTimer)
+      clearTimeout(retryTimer)
+      clearTimeout(fallbackTimer)
+    }
   }, [id])
 
   return (
@@ -43,18 +54,36 @@ export default function RedirectPage() {
         If nothing happens, tap below
       </p>
 
-      <a
-        href={`/listing/${id}`}
+      {/* 🔥 OPEN APP BUTTON (VERY IMPORTANT) */}
+      <button
+        onClick={() => {
+          window.location.href = `melomp://listing/${id}`
+        }}
         style={{
           padding: "12px 20px",
           background: "#D97732",
           borderRadius: 10,
           color: "#fff",
-          textDecoration: "none",
+          border: "none",
           fontWeight: "bold",
+          cursor: "pointer",
+          marginBottom: 12,
         }}
       >
-        View Listing
+        Open Melo App
+      </button>
+
+      {/* 🔥 FALLBACK LINK */}
+      <a
+        href={`/listing/${id}`}
+        style={{
+          padding: "10px 16px",
+          borderRadius: 8,
+          color: "#9CA3AF",
+          textDecoration: "none",
+        }}
+      >
+        View Listing on Web
       </a>
     </div>
   )
