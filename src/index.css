@@ -1,0 +1,36 @@
+/* RESET */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ROOT COLORS */
+
+:root{
+  --melo: #7FAF9B;
+}
+
+/* PAGE BACKGROUND */
+
+body{
+  min-height: 100vh;
+  font-family: Inter, system-ui, sans-serif;
+  color: #0f172a;
+  overflow-x: hidden;
+
+  background: linear-gradient(
+    to bottom,
+    #ffffff 0%,
+    #f4faf7 30%,
+    #d7ebe4 60%,
+    #7FAF9B 100%
+  );
+}
+
+/* ROOT WRAPPER */
+
+#root{
+  min-height: 100vh;
+}

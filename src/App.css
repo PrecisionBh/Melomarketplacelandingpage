@@ -1,0 +1,424 @@
+/* RESET */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* BASE COLORS */
+
+:root{
+  --melo: #7FAF9B;
+}
+
+/* PAGE BASE */
+
+body{
+  min-height: 100vh;
+  font-family: Inter, system-ui, sans-serif;
+  overflow-x: hidden;
+
+  /* ✅ lighter background (white → Melo green) */
+  background: linear-gradient(
+    to bottom,
+    #ffffff 0%,
+    #f4faf7 30%,
+    #d7ebe4 60%,
+    #7FAF9B 100%
+  );
+
+  /* ✅ dark text now that background is light */
+  color: #0f172a;
+}
+
+/* ROOT WRAPPER */
+
+#root{
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+}
+
+/* MAIN APP CONTAINER */
+
+.app{
+  width: 100%;
+  max-width: 1100px;
+  padding: 60px 20px;
+  position: relative; /* keeps balls behind content cleanly */
+}
+
+.hero{
+  text-align: center;
+  margin-top: 120px;
+
+  /* GLASS CARD */
+  background: rgba(255,255,255,0.35);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+
+  border: 1px solid rgba(255,255,255,0.5);
+  border-radius: 22px;
+
+  padding: 40px 28px;
+  box-shadow: 0 20px 60px rgba(0,0,0,.12);
+
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* LOGO */
+
+.logo{
+  font-size: 72px;
+  font-weight: 700;
+  color: var(--melo);
+}
+
+/* BACKGROUND BALLS */
+
+.bgBall{
+  position: fixed;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  z-index: -5;
+  pointer-events: none;
+
+  box-shadow:
+    inset 0 0 50px #fff,
+    inset 20px 0 80px #7FAF9B,
+    inset -20px 0 80px #7FAF9B,
+    inset 20px 0 300px #7FAF9B,
+    inset -20px 0 300px #7FAF9B,
+    0 0 50px #7FAF9B,
+    -10px 0 80px #7FAF9B,
+    10px 0 80px #7FAF9B;
+
+  opacity: .55;
+}
+
+/* HEADLINE */
+
+.headline{
+  font-size: 34px;
+  margin-top: 18px;
+  line-height: 1.3;
+}
+
+/* TAGLINE */
+
+.tagline{
+  margin-top: 16px;
+  opacity: .7;
+  font-size: 18px;
+  max-width: 760px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* BUTTONS */
+
+.buttons{
+  margin-top: 26px;
+  display: flex;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+.storeBtn{
+  padding: 14px 26px;
+  border-radius: 10px;
+  border: none;
+  background: #1f2937;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.storeBtn:hover{
+  background: #263244;
+}
+
+/* BUILT FOR PLAYERS / DESIGNED FOR YOU */
+
+.screenshots{
+  padding: 10px 20px 40px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.screenshotsTitle{
+  font-size: 42px;
+  font-weight: 800;
+  margin-bottom: 12px;
+}
+
+.screenshotsSubtitle{
+  max-width: 600px;
+  font-size: 18px;
+  opacity: .75;
+  line-height: 1.5;
+}
+
+/* PHONE PLACEHOLDER */
+
+.phoneWrapper{
+  margin-top: 70px;
+  display: flex;
+  justify-content: center;
+}
+
+.phone{
+  width: 260px;
+  border-radius: 26px;
+  box-shadow: 0 30px 60px rgba(0,0,0,.35);
+}
+
+/* FEATURES */
+
+.features{
+  padding: 100px 20px;
+}
+
+/* Centered title + underline (for "Why Melo?") */
+.features h2{
+  text-align: center;
+  font-size: 42px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  margin-bottom: 18px;
+  color: #0f172a;
+}
+
+.features h2::after{
+  content:"";
+  display:block;
+  width: 110px;
+  height: 4px;
+  margin: 14px auto 0;
+  border-radius: 999px;
+  background: linear-gradient(to right, transparent, var(--melo), transparent);
+}
+
+/* Feature grid */
+.featureGrid{
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 26px;
+  margin-top: 40px;
+  align-items: stretch;
+}
+
+/* Responsive */
+@media (max-width: 980px){
+  .featureGrid{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 560px){
+  .featureGrid{
+    grid-template-columns: 1fr;
+  }
+
+  .logo{
+    font-size: 56px;
+  }
+
+  .headline{
+    font-size: 28px;
+  }
+}
+
+/* Feature cards: readable + clean */
+.featureCard{
+  background: rgba(15, 23, 42, 0.92);
+  border: 1px solid rgba(255,255,255,0.08);
+  padding: 28px 22px;
+  border-radius: 18px;
+  text-align: center;
+  box-shadow: 0 18px 40px rgba(0,0,0,0.12);
+  transition: transform .2s ease, box-shadow .2s ease, border-color .2s ease;
+}
+
+.featureCard:hover{
+  transform: translateY(-4px);
+  box-shadow: 0 26px 60px rgba(0,0,0,0.18);
+  border-color: rgba(127,175,155,0.35);
+}
+
+.featureCard h3{
+  color: white;
+  font-size: 20px;
+  font-weight: 800;
+  margin-bottom: 10px;
+}
+
+.featureCard p{
+  color: rgba(255,255,255,0.78);
+  font-size: 15.5px;
+  line-height: 1.55;
+}
+
+/* DROPDOWNS INSIDE FEATURE CARDS */
+
+.featureCard details{
+  margin-top: 12px;
+  text-align: left;
+}
+
+.featureCard summary{
+  cursor: pointer;
+  font-weight: 800;
+  font-size: 14px;
+  color: var(--melo);
+  list-style: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.featureCard summary::-webkit-details-marker{
+  display:none;
+}
+
+.featureCard summary::after{
+  content: "▾";
+  font-size: 14px;
+  transform: translateY(-1px);
+  transition: transform .2s ease;
+  color: var(--melo);
+}
+
+.featureCard details[open] summary::after{
+  transform: rotate(180deg);
+}
+
+.featureCard details p{
+  margin-top: 10px;
+  font-size: 14px;
+  line-height: 1.55;
+  color: rgba(255,255,255,0.78);
+}
+
+/* FOOTER (center it) */
+
+.footer{
+  padding: 60px 20px 40px;
+  text-align: center;
+}
+
+.footer h3{
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  margin-bottom: 10px;
+  color: #0f172a;
+}
+
+.footer p{
+  max-width: 760px;
+  margin: 0 auto;
+  opacity: 0.85;
+}
+
+.footer a{
+  color: #0f172a;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+/* ---------------- MOBILE POLISH ---------------- */
+
+@media (max-width: 600px){
+
+  .app{
+    padding: 40px 18px;
+  }
+
+ @media (max-width: 600px){
+
+  .hero{
+    margin-top: 60px;
+    padding: 28px 20px;
+    border-radius: 18px;
+  }
+
+}
+
+  .logo{
+    font-size: 46px;
+  }
+
+  .headline{
+    font-size: 24px;
+    line-height: 1.35;
+  }
+
+  .tagline{
+    font-size: 16px;
+    margin-top: 12px;
+  }
+
+.buttons{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-top: 22px;
+}
+
+.storeBtn{
+  width: 260px;
+  margin: 0 auto;
+}
+
+  /* FEATURES */
+
+  .features{
+    padding: 70px 0;
+  }
+
+  .features h2{
+    font-size: 32px;
+  }
+
+  .featureGrid{
+    gap: 18px;
+  }
+
+  .featureCard{
+    padding: 22px 18px;
+  }
+
+  .featureCard h3{
+    font-size: 18px;
+  }
+
+  .featureCard p{
+    font-size: 14px;
+  }
+
+  /* FOOTER */
+
+  .footer h3{
+    font-size: 28px;
+  }
+
+  /* BACKGROUND BALLS smaller */
+
+  .bgBall{
+    width: 180px;
+    height: 180px;
+    opacity: .35;
+  }
+
+}
