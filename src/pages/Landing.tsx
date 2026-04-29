@@ -2,6 +2,22 @@ import { Link } from "react-router-dom";
 import { Star, Shield, Zap, TrendingUp, Package, DollarSign, Users, Check, ArrowRight, Smartphone } from "lucide-react";
 import { Button } from "../components/ui/button";
 
+const getDownloadLink = () => {
+  if (typeof navigator !== "undefined") {
+    const ua = navigator.userAgent || navigator.vendor;
+
+    if (/android/i.test(ua)) {
+      return "https://play.google.com/store/apps/details?id=com.bhoffman4.MeloMP";
+    }
+
+    if (/iPad|iPhone|iPod/.test(ua)) {
+      return "https://apps.apple.com/us/app/melo-marketplace/id6760438637";
+    }
+  }
+
+  return "https://apps.apple.com/us/app/melo-marketplace/id6760438637";
+};
+
 const FEATURES = [
   {
     icon: <DollarSign className="w-6 h-6 text-primary" />,
@@ -84,7 +100,7 @@ export default function Landing() {
          <div className="flex items-center gap-3">
 
   <a
-    href="https://apps.apple.com/us/app/melo-marketplace/id6760438637"
+    href={getDownloadLink()}
     target="_blank"
     rel="noopener noreferrer"
   >
@@ -113,7 +129,7 @@ export default function Landing() {
           </p>
           <div className="flex justify-center mb-12">
   <a
-    href="https://apps.apple.com/us/app/melo-marketplace/id6760438637"
+    href={getDownloadLink()}
     target="_blank"
     rel="noopener noreferrer"
     className="w-full sm:w-auto"
@@ -132,7 +148,7 @@ export default function Landing() {
           <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
             <p className="text-sm text-muted-foreground w-full sm:w-auto">Download the app:</p>
             <a
-              href="#"
+              href={getDownloadLink()}
               className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-foreground text-background hover:bg-foreground/90 transition-colors w-full sm:w-auto justify-center"
             >
               <Smartphone className="w-5 h-5 shrink-0" />
@@ -142,7 +158,7 @@ export default function Landing() {
               </div>
             </a>
             <a
-              href="#"
+              href={getDownloadLink()}
               className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-foreground text-background hover:bg-foreground/90 transition-colors w-full sm:w-auto justify-center"
             >
               <Smartphone className="w-5 h-5 shrink-0" />
@@ -252,7 +268,7 @@ export default function Landing() {
                 ))}
               </ul>
               <a
-  href="https://apps.apple.com/us/app/melo-marketplace/id6760438637"
+  href={getDownloadLink()}
   target="_blank"
   rel="noopener noreferrer"
 >
@@ -278,7 +294,7 @@ export default function Landing() {
                 ))}
               </ul>
               <a
-  href="https://apps.apple.com/us/app/melo-marketplace/id6760438637"
+  href={getDownloadLink()}
   target="_blank"
   rel="noopener noreferrer"
 >
@@ -355,7 +371,7 @@ export default function Landing() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center mb-10">
             <a
-  href="https://apps.apple.com/us/app/melo-marketplace/id6760438637"
+  href={getDownloadLink()}
   target="_blank"
   rel="noopener noreferrer"
   className="w-full sm:w-auto"
@@ -370,7 +386,7 @@ export default function Landing() {
           {/* App Buttons */}
           <div className="flex flex-col sm:flex-row gap-3 justify-center items-center">
             <a
-              href="#"
+              href={getDownloadLink()}
               className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-foreground text-background hover:bg-foreground/90 transition-colors w-full sm:w-auto justify-center"
             >
               <Smartphone className="w-5 h-5 shrink-0" />
@@ -380,7 +396,7 @@ export default function Landing() {
               </div>
             </a>
             <a
-              href="#"
+              href={getDownloadLink()}
               className="flex items-center gap-3 px-5 py-3 rounded-2xl bg-foreground text-background hover:bg-foreground/90 transition-colors w-full sm:w-auto justify-center"
             >
               <Smartphone className="w-5 h-5 shrink-0" />
