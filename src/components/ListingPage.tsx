@@ -6,17 +6,21 @@ export default function ListingPage() {
   const [listing, setListing] = useState<any>(null)
 
   const SUPABASE_URL = "https://flfnwwrvwimnfcnuhwlr.supabase.co"
-  const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY
+  const SUPABASE_KEY =
+    import.meta.env.VITE_SUPABASE_ANON_KEY?.trim()
 
   useEffect(() => {
     console.log("🔥 PAGE LOADED")
     console.log("Listing ID:", id)
-    console.log("Supabase Key:", SUPABASE_KEY ? "✅ exists" : "❌ missing")
+    console.log(
+      "Supabase Key:",
+      SUPABASE_KEY ? "✅ exists" : "❌ missing"
+    )
 
     const fetchListing = async () => {
       try {
         if (!SUPABASE_KEY) {
-          console.error("❌ Missing Supabase key — check Vercel env")
+          console.error("❌ Missing Supabase key")
           return
         }
 
@@ -31,8 +35,7 @@ export default function ListingPage() {
 
         const res = await fetch(url, {
           headers: {
-            apikey: SUPABASE_KEY,
-            Authorization: `Bearer ${SUPABASE_KEY}`,
+            apikey: SUPABASE_KEY, // ✅ ONLY THIS
           },
         })
 
@@ -55,11 +58,13 @@ export default function ListingPage() {
     const ua = navigator.userAgent || navigator.vendor
     const isMobile = /android|iphone|ipad|ipod/i.test(ua)
 
-    console.log("📱 Device:", isMobile ? "Mobile" : "Desktop")
+    console.log(
+      "📱 Device:",
+      isMobile ? "Mobile" : "Desktop"
+    )
 
     if (!isMobile) return
 
-    // 🔥 deep link attempt only (no forced redirect)
     setTimeout(() => {
       console.log("🚀 Attempting deep link...")
       window.location.href = `melomp://listing/${id}`
