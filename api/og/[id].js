@@ -8,6 +8,10 @@ export default async function handler(req, res) {
       process.env.SUPABASE_URL,
       process.env.SUPABASE_ANON_KEY
     )
+    console.log("ENV CHECK:", {
+  url: process.env.SUPABASE_URL,
+  key: process.env.SUPABASE_ANON_KEY ? "exists" : "missing",
+})
 
     const { data: listing, error } = await supabase
       .from("listings")
