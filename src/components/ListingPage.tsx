@@ -9,25 +9,44 @@ export default function ListingPage() {
   const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY
 
   useEffect(() => {
+    console.log("🔥 PAGE LOADED")
+    console.log("Listing ID:", id)
+    console.log("Supabase Key:", SUPABASE_KEY ? "✅ exists" : "❌ missing")
+
     const fetchListing = async () => {
       try {
-        const res = await fetch(
-          `${SUPABASE_URL}/rest/v1/listings?id=eq.${id}`,
-          {
-            headers: {
-              apikey: SUPABASE_KEY,
-              Authorization: `Bearer ${SUPABASE_KEY}`,
-            },
-          }
-        )
+        if (!SUPABASE_KEY) {
+          console.error("❌ Missing Supabase key — check Vercel env")
+          return
+        }
+
+        if (!id) {
+          console.error("❌ Missing ID")
+          return
+        }
+
+        const url = `${SUPABASE_URL}/rest/v1/listings?id=eq.${id}`
+
+        console.log("📡 Fetching:", url)
+
+        const res = await fetch(url, {
+          headers: {
+            apikey: SUPABASE_KEY,
+            Authorization: `Bearer ${SUPABASE_KEY}`,
+          },
+        })
 
         const data = await res.json()
 
+        console.log("📦 Response:", data)
+
         if (data && data[0]) {
           setListing(data[0])
+        } else {
+          console.warn("⚠️ No listing found")
         }
       } catch (err) {
-        console.log("fetch error", err)
+        console.error("🔥 FETCH ERROR:", err)
       }
     }
 
@@ -36,14 +55,19 @@ export default function ListingPage() {
     const ua = navigator.userAgent || navigator.vendor
     const isMobile = /android|iphone|ipad|ipod/i.test(ua)
 
+    console.log("📱 Device:", isMobile ? "Mobile" : "Desktop")
+
     if (!isMobile) return
 
+    // 🔥 deep link attempt only (no forced redirect)
     setTimeout(() => {
+      console.log("🚀 Attempting deep link...")
       window.location.href = `melomp://listing/${id}`
     }, 300)
   }, [id])
 
   const openApp = () => {
+    console.log("👉 Manual open app click")
     window.location.href = `melomp://listing/${id}`
   }
 
