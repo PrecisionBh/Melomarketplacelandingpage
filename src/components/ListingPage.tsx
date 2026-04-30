@@ -5,21 +5,27 @@ export default function ListingPage() {
   const { id } = useParams()
   const [listing, setListing] = useState<any>(null)
 
+  const SUPABASE_URL = "https://flfnwwrvwimnfcnuhwlr.supabase.co"
+  const SUPABASE_KEY = import.meta.env.VITE_SUPABASE_ANON_KEY
+
   useEffect(() => {
     const fetchListing = async () => {
       try {
         const res = await fetch(
-          `https://flfnwwrvwimnfcnuhwlr.supabase.co/rest/v1/listings?id=eq.${id}`,
+          `${SUPABASE_URL}/rest/v1/listings?id=eq.${id}`,
           {
             headers: {
-              apikey: import.meta.env.VITE_SUPABASE_ANON_KEY,
-              Authorization: `Bearer ${import.meta.env.VITE_SUPABASE_ANON_KEY}`,
+              apikey: SUPABASE_KEY,
+              Authorization: `Bearer ${SUPABASE_KEY}`,
             },
           }
         )
 
         const data = await res.json()
-        if (data && data[0]) setListing(data[0])
+
+        if (data && data[0]) {
+          setListing(data[0])
+        }
       } catch (err) {
         console.log("fetch error", err)
       }
@@ -30,9 +36,8 @@ export default function ListingPage() {
     const ua = navigator.userAgent || navigator.vendor
     const isMobile = /android|iphone|ipad|ipod/i.test(ua)
 
-    if (!isMobile) return // 🔥 DO NOTHING on desktop
+    if (!isMobile) return
 
-    // 🔥 attempt to open app (no forced fallback)
     setTimeout(() => {
       window.location.href = `melomp://listing/${id}`
     }, 300)
