@@ -28,25 +28,14 @@ export default function ListingPage() {
     fetchListing()
 
     const ua = navigator.userAgent || navigator.vendor
+    const isMobile = /android|iphone|ipad|ipod/i.test(ua)
 
-    const openTimer = setTimeout(() => {
+    if (!isMobile) return // 🔥 DO NOTHING on desktop
+
+    // 🔥 attempt to open app (no forced fallback)
+    setTimeout(() => {
       window.location.href = `melomp://listing/${id}`
     }, 300)
-
-    const fallbackTimer = setTimeout(() => {
-      if (/android/i.test(ua)) {
-        window.location.href =
-          "https://play.google.com/store/apps/details?id=com.bhoffman4.MeloMP"
-      } else {
-        window.location.href =
-          "https://apps.apple.com/us/app/melo-marketplace/id6760438637"
-      }
-    }, 1500)
-
-    return () => {
-      clearTimeout(openTimer)
-      clearTimeout(fallbackTimer)
-    }
   }, [id])
 
   const openApp = () => {
@@ -74,7 +63,6 @@ export default function ListingPage() {
         padding: 20,
       }}
     >
-      {/* CARD */}
       <div
         style={{
           width: "100%",
@@ -86,7 +74,6 @@ export default function ListingPage() {
           border: "1px solid #eee",
         }}
       >
-        {/* IMAGE */}
         <img
           src={image}
           alt={title}
@@ -99,7 +86,6 @@ export default function ListingPage() {
           }}
         />
 
-        {/* TITLE */}
         <h1
           style={{
             fontSize: 20,
@@ -111,7 +97,6 @@ export default function ListingPage() {
           {title}
         </h1>
 
-        {/* PRICE */}
         <p
           style={{
             fontSize: 18,
@@ -123,7 +108,6 @@ export default function ListingPage() {
           {price}
         </p>
 
-        {/* BUTTON */}
         <button
           onClick={openApp}
           style={{
@@ -142,7 +126,6 @@ export default function ListingPage() {
           Open in Melo
         </button>
 
-        {/* SUBTEXT */}
         <p
           style={{
             fontSize: 13,
@@ -154,10 +137,11 @@ export default function ListingPage() {
           Don’t have the app?
         </p>
 
-        {/* LINKS */}
         <div style={{ textAlign: "center" }}>
           <a
             href="https://apps.apple.com/us/app/melo-marketplace/id6760438637"
+            target="_blank"
+            rel="noopener noreferrer"
             style={{ color: "#111", display: "block", marginBottom: 6 }}
           >
             Download on App Store
@@ -165,6 +149,8 @@ export default function ListingPage() {
 
           <a
             href="https://play.google.com/store/apps/details?id=com.bhoffman4.MeloMP"
+            target="_blank"
+            rel="noopener noreferrer"
             style={{ color: "#111" }}
           >
             Get it on Google Play
