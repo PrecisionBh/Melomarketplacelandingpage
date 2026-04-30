@@ -417,10 +417,16 @@ export default function Landing() {
             The free peer-to-peer marketplace. Buy, sell, and thrive.
           </p>
           <div className="flex gap-4 text-sm text-muted-foreground">
-            <Link to="/legal" className="hover:text-foreground transition-colors">Terms</Link>
-            <Link to="/legal" className="hover:text-foreground transition-colors">Privacy</Link>
-            <Link to="/" className="hover:text-foreground transition-colors">Marketplace</Link>
-          </div>
+  <a href="/delete-account.html" className="hover:text-foreground transition-colors">
+    Delete Account
+  </a>
+  <a href="/privacy.html" className="hover:text-foreground transition-colors">
+    Privacy
+  </a>
+  <Link to="/" className="hover:text-foreground transition-colors">
+    Marketplace
+  </Link>
+</div>
         </div>
       </footer>
     </div>
