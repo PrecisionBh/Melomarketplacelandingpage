@@ -19,14 +19,16 @@ export default async function handler(req, res) {
       ? `${listing.title} - $${listing.price}`
       : "Melo Listing"
 
-    const description = listing?.subcategory
-      ? listing.subcategory.replace(/_/g, " ")
+    // 🔥 PRICE-FOCUSED (NO DESCRIPTION FLUFF)
+    const description = listing?.price
+      ? `🔥 Only $${listing.price} — Tap to view`
       : "View this item on Melo"
 
-    // 🔥 YOUR IMAGE (ALREADY GOOD)
     const image =
       listing?.image_urls?.[0] ||
       "https://melomarketplace.app/default.png"
+
+    const ogUrl = `https://melomarketplace.app/api/og/${id}`
 
     res.setHeader("Content-Type", "text/html")
 
@@ -36,20 +38,20 @@ export default async function handler(req, res) {
         <head>
           <title>${title}</title>
 
-          <!-- 🔥 REQUIRED OG -->
+          <!-- 🔥 OPEN GRAPH -->
           <meta property="og:title" content="${title}" />
           <meta property="og:description" content="${description}" />
           <meta property="og:image" content="${image}" />
           <meta property="og:image:secure_url" content="${image}" />
-          <meta property="og:image:type" content="image/jpeg" />
           <meta property="og:image:width" content="1200" />
           <meta property="og:image:height" content="630" />
           <meta property="og:image:alt" content="${title}" />
 
-          <meta property="og:url" content="https://melomarketplace.app/share/${id}" />
-          <meta property="og:type" content="website" />
+          <meta property="og:url" content="${ogUrl}" />
+          <meta property="og:type" content="product" />
+          <meta property="og:site_name" content="Melo Marketplace" />
 
-          <!-- 🔥 TWITTER (IMPORTANT FOR iMESSAGE TOO) -->
+          <!-- 🔥 TWITTER / iMESSAGE -->
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content="${title}" />
           <meta name="twitter:description" content="${description}" />
@@ -58,13 +60,10 @@ export default async function handler(req, res) {
         </head>
 
         <body>
-          <p>Loading...</p>
+          <p>Redirecting...</p>
 
-          <!-- 🔥 DELAYED REDIRECT (THIS FIXES iMESSAGE) -->
           <script>
-            setTimeout(() => {
-              window.location.href = "https://melomarketplace.app/l/${id}"
-            }, 1000)
+            window.location.href = "https://melomarketplace.app/l/${id}"
           </script>
         </body>
       </html>
