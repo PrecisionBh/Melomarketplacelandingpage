@@ -1,41 +1,72 @@
-import { useParams } from "react-router-dom"
-import { useEffect } from "react"
+import { createClient } from "@supabase/supabase-js"
 
-export default function ListingPage() {
-  const { id } = useParams()
+export default async function handler(req, res) {
+  try {
+    const { id } = req.query
 
-  useEffect(() => {
-    const ua = navigator.userAgent || navigator.vendor
+    const supabase = createClient(
+      process.env.SUPABASE_URL,
+      process.env.SUPABASE_ANON_KEY
+    )
 
-    // 🔥 try open app
-    setTimeout(() => {
-      window.location.href = `melomp://listing/${id}`
-    }, 200)
+    const { data: listing } = await supabase
+      .from("listings")
+      .select("*")
+      .eq("id", id)
+      .maybeSingle()
 
-    // 🔥 fallback
-    setTimeout(() => {
-      if (/android/i.test(ua)) {
-        window.location.href =
-          "https://play.google.com/store/apps/details?id=com.bhoffman4.MeloMP"
-      } else {
-        window.location.href =
-          "https://apps.apple.com/us/app/melo-marketplace/id6760438637"
-      }
-    }, 1500)
-  }, [id])
+    const title = listing?.title
+      ? `${listing.title} - $${listing.price}`
+      : "Melo Listing"
 
-  return (
-    <div
-      style={{
-        minHeight: "100vh",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-        background: "#0F1E17",
-        color: "#fff",
-      }}
-    >
-      Opening Melo...
-    </div>
-  )
+    const description = listing?.subcategory
+      ? listing.subcategory.replace(/_/g, " ")
+      : "View this item on Melo"
+
+    const image =
+      listing?.image_urls?.[0] ||
+      "https://melomarketplace.app/default.png"
+
+    res.setHeader("Content-Type", "text/html")
+
+    return res.status(200).send(`
+      <!DOCTYPE html>
+      <html>
+        <head>
+          <meta property="og:title" content="${title}" />
+          <meta property="og:description" content="${description}" />
+          <meta property="og:image" content="${image}" />
+          <meta property="og:url" content="https://melomarketplace.app/l/${id}" />
+          <meta property="og:type" content="website" />
+
+          <meta name="twitter:card" content="summary_large_image" />
+          <meta name="twitter:title" content="${title}" />
+          <meta name="twitter:description" content="${description}" />
+          <meta name="twitter:image" content="${image}" />
+
+          <title>${title}</title>
+        </head>
+
+        <body>
+          Redirecting...
+          <script>
+            window.location.href = "https://melomarketplace.app/l/${id}"
+          </script>
+        </body>
+      </html>
+    `)
+  } catch (err) {
+    console.error(err)
+
+    return res.status(200).send(`
+      <html>
+        <head>
+          <meta property="og:title" content="Melo Marketplace" />
+          <meta property="og:description" content="Buy and sell anything on Melo" />
+          <meta property="og:image" content="https://melomarketplace.app/default.png" />
+        </head>
+        <body>Melo</body>
+      </html>
+    `)
+  }
 }
