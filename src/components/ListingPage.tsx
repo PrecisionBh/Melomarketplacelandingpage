@@ -3,11 +3,9 @@ import { useEffect, useState } from "react"
 
 export default function ListingPage() {
   const { id } = useParams()
-
   const [listing, setListing] = useState<any>(null)
 
   useEffect(() => {
-    // 🔥 fetch listing data
     const fetchListing = async () => {
       try {
         const res = await fetch(
@@ -29,7 +27,6 @@ export default function ListingPage() {
 
     fetchListing()
 
-    // 🔥 deep link attempt
     const ua = navigator.userAgent || navigator.vendor
 
     const openTimer = setTimeout(() => {
@@ -70,22 +67,23 @@ export default function ListingPage() {
     <div
       style={{
         minHeight: "100vh",
-        background: "#0F1E17",
+        background: "#f9fafb",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
         padding: 20,
       }}
     >
-      {/* 🔥 CARD */}
+      {/* CARD */}
       <div
         style={{
           width: "100%",
           maxWidth: 420,
-          background: "#111",
+          background: "#fff",
           borderRadius: 20,
           padding: 20,
-          boxShadow: "0 10px 30px rgba(0,0,0,0.4)",
+          boxShadow: "0 8px 30px rgba(0,0,0,0.08)",
+          border: "1px solid #eee",
         }}
       >
         {/* IMAGE */}
@@ -106,7 +104,7 @@ export default function ListingPage() {
           style={{
             fontSize: 20,
             fontWeight: 700,
-            color: "#fff",
+            color: "#111",
             marginBottom: 6,
           }}
         >
@@ -125,7 +123,7 @@ export default function ListingPage() {
           {price}
         </p>
 
-        {/* CTA */}
+        {/* BUTTON */}
         <button
           onClick={openApp}
           style={{
@@ -148,7 +146,7 @@ export default function ListingPage() {
         <p
           style={{
             fontSize: 13,
-            color: "#888",
+            color: "#666",
             textAlign: "center",
             marginBottom: 10,
           }}
@@ -156,18 +154,18 @@ export default function ListingPage() {
           Don’t have the app?
         </p>
 
-        {/* DOWNLOAD LINKS */}
+        {/* LINKS */}
         <div style={{ textAlign: "center" }}>
           <a
             href="https://apps.apple.com/us/app/melo-marketplace/id6760438637"
-            style={{ color: "#fff", display: "block", marginBottom: 6 }}
+            style={{ color: "#111", display: "block", marginBottom: 6 }}
           >
             Download on App Store
           </a>
 
           <a
             href="https://play.google.com/store/apps/details?id=com.bhoffman4.MeloMP"
-            style={{ color: "#fff" }}
+            style={{ color: "#111" }}
           >
             Get it on Google Play
           </a>
