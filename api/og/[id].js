@@ -4,27 +4,43 @@ export default async function handler(req, res) {
   try {
     const { id } = req.query
 
+    console.log("OG HIT:", id)
+
+    const SUPABASE_URL =
+      process.env.SUPABASE_URL ||
+      process.env.VITE_SUPABASE_URL
+
+    const SUPABASE_KEY =
+      process.env.SUPABASE_ANON_KEY ||
+      process.env.VITE_SUPABASE_ANON_KEY
+
+    if (!SUPABASE_URL || !SUPABASE_KEY) {
+      console.error("❌ Missing env vars")
+      return sendFallback(res)
+    }
+
     const supabase = createClient(
-      process.env.SUPABASE_URL,
-      process.env.SUPABASE_ANON_KEY
+      SUPABASE_URL,
+      SUPABASE_KEY
     )
-    console.log("ENV CHECK:", {
-  url: process.env.SUPABASE_URL,
-  key: process.env.SUPABASE_ANON_KEY ? "exists" : "missing",
-})
 
     const { data: listing, error } = await supabase
       .from("listings")
       .select("*")
       .eq("id", id)
-      .single()
+      .maybeSingle()
 
-    if (error || !listing) {
+    if (error) {
       console.error("❌ Supabase error:", error)
-      return res.status(404).send("Listing not found")
+      return sendFallback(res)
     }
 
-    // 🔥 TITLE + PRICE
+    if (!listing) {
+      console.log("⚠️ No listing found")
+      return sendFallback(res)
+    }
+
+    // SAFE TITLE
     const title = listing.title
       ? `${listing.title} - $${listing.price}`
       : "Melo Listing"
@@ -33,18 +49,19 @@ export default async function handler(req, res) {
       ? `$${listing.price}`
       : "View on Melo"
 
-    // 🔥 DESCRIPTION
+    // SAFE DESCRIPTION
     const description = listing.subcategory
       ? `${listing.subcategory.replace(/_/g, " ")} • ${price}`
       : `${price} • Buy on Melo`
 
-    // 🔥 IMAGE HANDLING (FORCE FULL URL)
+    // SAFE IMAGE
     let image = ""
 
-    if (Array.isArray(listing.image_urls)) {
+    if (
+      Array.isArray(listing.image_urls) &&
+      listing.image_urls.length > 0
+    ) {
       image = listing.image_urls[0]
-    } else if (typeof listing.image_urls === "string") {
-      image = listing.image_urls
     }
 
     if (image && !image.startsWith("http")) {
@@ -57,7 +74,7 @@ export default async function handler(req, res) {
 
     res.setHeader("Content-Type", "text/html")
 
-    res.send(`
+    return res.status(200).send(`
       <!DOCTYPE html>
       <html>
         <head>
@@ -87,35 +104,40 @@ export default async function handler(req, res) {
 
           <p style="margin-top:20px;">Opening Melo...</p>
 
-          <!-- 🔥 SAFE DEEP LINK (DELAYED) -->
           <script>
             setTimeout(() => {
               window.location.href = "melomp://listing/${id}"
             }, 500)
           </script>
 
-          <!-- 🔥 FALLBACK BUTTON -->
-          <div style="margin-top:20px;">
-            <a href="melomp://listing/${id}" style="color:#4ade80;">
-              Open in Melo
-            </a>
-          </div>
-
-          <!-- APP DOWNLOAD -->
-          <div style="margin-top:20px;">
-            <a href="https://apps.apple.com/us/app/melo-marketplace/id6760438637">
-              Download on App Store
-            </a>
-            <br/>
-            <a href="https://play.google.com/store/apps/details?id=com.bhoffman4.MeloMP">
-              Get it on Google Play
-            </a>
-          </div>
+          <a href="melomp://listing/${id}" style="color:#4ade80;">
+            Open in Melo
+          </a>
         </body>
       </html>
     `)
   } catch (err) {
-    console.error("🔥 SERVER ERROR:", err)
-    res.status(500).send("Server error")
+    console.error("🔥 SERVER CRASH:", err)
+    return sendFallback(res)
   }
+}
+
+// 🔥 FALLBACK (NEVER FAIL)
+function sendFallback(res) {
+  res.setHeader("Content-Type", "text/html")
+
+  return res.status(200).send(`
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <meta property="og:title" content="Melo Marketplace" />
+        <meta property="og:description" content="Buy and sell anything on Melo" />
+        <meta property="og:image" content="https://melomarketplace.app/default.png" />
+        <meta property="og:type" content="website" />
+      </head>
+      <body>
+        Melo Marketplace
+      </body>
+    </html>
+  `)
 }
