@@ -23,9 +23,14 @@ export default async function handler(req, res) {
       ? listing.subcategory.replace(/_/g, " ")
       : "View this item on Melo"
 
-    const image =
-      listing?.image_urls?.[0] ||
-      "https://melomarketplace.app/default.png"
+    // 🔥 FIXED IMAGE LOGIC
+    const rawImage = listing?.image_urls?.[0]
+
+    const image = rawImage
+      ? rawImage.startsWith("http")
+        ? rawImage
+        : `https://ccrrxdpfepsoghtgtpwx.supabase.co/storage/v1/object/public/product-images/${rawImage}`
+      : "https://melomarketplace.app/default.png"
 
     res.setHeader("Content-Type", "text/html")
 
@@ -35,10 +40,17 @@ export default async function handler(req, res) {
         <head>
           <meta property="og:title" content="${title}" />
           <meta property="og:description" content="${description}" />
+          
+          <!-- 🔥 IMPORTANT IMAGE TAGS -->
           <meta property="og:image" content="${image}" />
+          <meta property="og:image:secure_url" content="${image}" />
+          <meta property="og:image:width" content="1200" />
+          <meta property="og:image:height" content="630" />
+
           <meta property="og:url" content="https://melomarketplace.app/l/${id}" />
           <meta property="og:type" content="website" />
 
+          <!-- 🔥 TWITTER -->
           <meta name="twitter:card" content="summary_large_image" />
           <meta name="twitter:title" content="${title}" />
           <meta name="twitter:description" content="${description}" />
