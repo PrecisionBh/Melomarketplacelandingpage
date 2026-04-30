@@ -5,7 +5,7 @@ export default function ListingPage() {
   const { id } = useParams()
   const [listing, setListing] = useState<any>(null)
 
-  const SUPABASE_URL = "https://flfnwwrvwimnfcnuhwlr.supabase.co"
+  const SUPABASE_URL = "https://ccrrxdpfepsoghtgtpwx.supabase.co"
   const SUPABASE_KEY =
     import.meta.env.VITE_SUPABASE_ANON_KEY?.trim()
 
