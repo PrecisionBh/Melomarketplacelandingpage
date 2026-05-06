@@ -10,8 +10,7 @@
       text-align: center;
       color: white;
       height: 100vh;
-
-      /* 🔥 Melo gradient */
+      overflow: hidden;
       background: linear-gradient(135deg, #ff7a00, #ff4d00);
     }
 
@@ -26,12 +25,43 @@
     h1 {
       font-size: 48px;
       font-weight: 900;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
     }
 
     .sub {
       opacity: 0.9;
-      margin-bottom: 30px;
+      margin-bottom: 10px;
+    }
+
+    .rules {
+      font-size: 14px;
+      opacity: 0.85;
+      margin-bottom: 15px;
+    }
+
+    .prize-label {
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .prize {
+      width: 260px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      box-shadow: 0 20px 50px rgba(0,0,0,0.35);
+      animation: float 3s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+
+    #stats {
+      margin-bottom: 15px;
+      font-size: 15px;
+      opacity: 0.9;
     }
 
     button {
@@ -43,7 +73,7 @@
       color: #ff4d00;
       font-weight: bold;
       cursor: pointer;
-      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.25);
       transition: 0.2s;
     }
 
@@ -51,21 +81,16 @@
       transform: scale(1.05);
     }
 
-    #status {
-      margin-top: 20px;
-      opacity: 0.85;
-    }
-
     #winner {
-      margin-top: 40px;
-      font-size: 42px;
+      margin-top: 30px;
+      font-size: 40px;
       font-weight: bold;
-      background: rgba(0,0,0,0.2);
+      background: rgba(0,0,0,0.25);
       padding: 20px 30px;
-      border-radius: 12px;
+      border-radius: 16px;
       backdrop-filter: blur(10px);
+      min-width: 300px;
     }
-
   </style>
 </head>
 
@@ -76,51 +101,57 @@
   <h1>🎉 MELO GIVEAWAY</h1>
   <div class="sub">Entries pulled live from Melo users & listings</div>
 
+  <div class="rules">
+    1 entry per account • +5 per listing
+  </div>
+
+  <div class="prize-label">🎁 Full Precision Set Giveaway</div>
+  <img src="/giveaway-prize.jpg" class="prize" />
+
+  <div id="stats"></div>
+
   <button onclick="pickWinner()">Pick Winner</button>
 
-  <div id="status"></div>
   <div id="winner"></div>
 
 </div>
 
 <script>
 async function pickWinner() {
-  const status = document.getElementById("status")
+  const stats = document.getElementById("stats")
   const winnerDiv = document.getElementById("winner")
 
-  winnerDiv.innerText = ""
-  status.innerText = "Loading Melo entries..."
-
+  winnerDiv.innerText = "Loading..."
+  
   const res = await fetch("https://ccrrxdpfepsoghtgtpwx.supabase.co/functions/v1/giveaway")
   const data = await res.json()
 
+  // 🔥 REMOVE YOU
+  const filtered = data.filter(user => user.name !== "Brandon Hoffman")
+
   let pool = []
 
-  data.forEach(user => {
+  filtered.forEach(user => {
     for (let i = 0; i < user.entries; i++) {
       pool.push(user.name)
     }
   })
 
-  status.innerText = "Selecting winner..."
+  // 🔥 ENTRY COUNTER
+  stats.innerText = `Loaded ${filtered.length} users • ${pool.length} total entries`
 
   let spins = 60
 
   const interval = setInterval(() => {
-    const random =
-      pool[Math.floor(Math.random() * pool.length)]
-
+    const random = pool[Math.floor(Math.random() * pool.length)]
     winnerDiv.innerText = random
     spins--
 
     if (spins <= 0) {
       clearInterval(interval)
 
-      const final =
-        pool[Math.floor(Math.random() * pool.length)]
-
+      const final = pool[Math.floor(Math.random() * pool.length)]
       winnerDiv.innerText = "🎉 " + final
-      status.innerText = "Winner Selected!"
     }
   }, 60)
 }
