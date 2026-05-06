@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Melo Giveaway</title>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      color: white;
+      height: 100vh;
+
+      /* 🔥 Melo gradient */
+      background: linear-gradient(135deg, #ff7a00, #ff4d00);
+    }
+
+    .container {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100%;
+    }
+
+    h1 {
+      font-size: 48px;
+      font-weight: 900;
+      margin-bottom: 10px;
+    }
+
+    .sub {
+      opacity: 0.9;
+      margin-bottom: 30px;
+    }
+
+    button {
+      padding: 16px 36px;
+      font-size: 18px;
+      border: none;
+      border-radius: 12px;
+      background: white;
+      color: #ff4d00;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+      transition: 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+    }
+
+    #status {
+      margin-top: 20px;
+      opacity: 0.85;
+    }
+
+    #winner {
+      margin-top: 40px;
+      font-size: 42px;
+      font-weight: bold;
+      background: rgba(0,0,0,0.2);
+      padding: 20px 30px;
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+    }
+
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <h1>🎉 MELO GIVEAWAY</h1>
+  <div class="sub">Entries pulled live from Melo users & listings</div>
+
+  <button onclick="pickWinner()">Pick Winner</button>
+
+  <div id="status"></div>
+  <div id="winner"></div>
+
+</div>
+
+<script>
+async function pickWinner() {
+  const status = document.getElementById("status")
+  const winnerDiv = document.getElementById("winner")
+
+  winnerDiv.innerText = ""
+  status.innerText = "Loading Melo entries..."
+
+  const res = await fetch("https://ccrrxdpfepsoghtgtpwx.supabase.co/functions/v1/giveaway")
+  const data = await res.json()
+
+  let pool = []
+
+  data.forEach(user => {
+    for (let i = 0; i < user.entries; i++) {
+      pool.push(user.name)
+    }
+  })
+
+  status.innerText = "Selecting winner..."
+
+  let spins = 60
+
+  const interval = setInterval(() => {
+    const random =
+      pool[Math.floor(Math.random() * pool.length)]
+
+    winnerDiv.innerText = random
+    spins--
+
+    if (spins <= 0) {
+      clearInterval(interval)
+
+      const final =
+        pool[Math.floor(Math.random() * pool.length)]
+
+      winnerDiv.innerText = "🎉 " + final
+      status.innerText = "Winner Selected!"
+    }
+  }, 60)
+}
+</script>
+
+</body>
+</html>
