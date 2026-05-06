@@ -127,7 +127,10 @@ async function pickWinner() {
   const data = await res.json()
 
   // 🔥 REMOVE YOU
-  const filtered = data.filter(user => user.name !== "Brandon Hoffman")
+  const filtered = data.filter(user =>
+  user.name !== "Brandon Hoffman" &&
+  user.name !== "Melo669027796"
+)
 
   let pool = []
 
